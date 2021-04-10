@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'database.dart';
+// import 'database.dart';
 import 'expense.dart';
 import 'expense_table.dart';
 
 void main() async{
-  initDB();
+  // WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
     home: DefaultTabController(
       length: 3,

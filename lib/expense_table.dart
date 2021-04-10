@@ -50,25 +50,20 @@ class _DataSource extends DataTableSource {
   }
 
   final BuildContext context;
-  List<_Row> _rows;
+  late List<_Row> _rows;
 
   int _selectedCount = 0;
 
   @override
   DataRow getRow(int index) {
     assert(index >= 0);
-    if (index >= _rows.length) return null;
+    if (index >= _rows.length) return null as DataRow;
     final row = _rows[index];
     return DataRow.byIndex(
       index: index,
       selected: row.selected,
       onSelectChanged: (value) {
-        if (row.selected != value) {
-          _selectedCount += value ? 1 : -1;
-          assert(_selectedCount >= 0);
-          row.selected = value;
-          notifyListeners();
-        }
+        notifyListeners();
       },
       cells: [
         DataCell(Text(row.valueB)),
