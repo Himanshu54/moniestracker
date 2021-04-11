@@ -7,29 +7,28 @@ class Expense {
   final int? id;
   DateTime date;
   double amount;
+  String category;
 
-  Expense(
-    this.id,
-    this.date,
-    this.amount,
-  ) {
+  Expense(this.id, this.category, this.amount, this.date) {
     DateTime now = new DateTime.now();
     this.date = new DateTime(now.year, now.month, now.day);
     this.amount = 0;
+    this.category = '';
   }
 
   // columns in the database.
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'category': category,
       'amount': amount,
       'date': date,
     };
   }
 
   factory Expense.fromJson(Map<String, dynamic> json) {
-    return Expense(
-        json['id'] as int, json['date'] as DateTime, json['amount'] as double);
+    return Expense(json['id'] as int, json['category'] as String,
+        json['amount'] as double, json['date'] as DateTime);
   }
 }
 
@@ -55,10 +54,10 @@ initDB() async {
     onCreate: (db, version) async {
       // Run the CREATE TABLE statement on the database.
       return await db.execute(
-        "CREATE TABLE expense(id INTEGER  NOT NULL  IDENTITY  PRIMARY KEY, amount REAL  NOT NULL, date DATE  NOT NULL)",
+        "CREATE TABLE expense(id INTEGER  NOT NULL  IDENTITY  PRIMARY KEY, category  TEXT  NOT NULL , amount REAL  NOT NULL, date DATE  NOT NULL)",
       );
     },
-    version: 4,
+    version: 5,
   );
 }
 
@@ -87,10 +86,7 @@ Future<List<Expense>> expense() async {
 
   // Convert the List<Map<String, dynamic> into a List<Dog>.
   return List.generate(maps.length, (i) {
-    return Expense(
-      maps[i]['id'],
-      maps[i]['date'],
-      double.parse(maps[i]['amount']),
-    );
+    return Expense(maps[i]['id'], maps[i]['category'],
+        double.parse(maps[i]['amount']), maps[i]['date']);
   });
 }

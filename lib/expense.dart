@@ -47,9 +47,9 @@ class _ExpenseCanvasState extends State<ExpenseCanvas> {
         children: [
           DataTable(
             columns: [
-              DataColumn(label: Text('Id')),
               DataColumn(label: Text('Date')),
               DataColumn(label: Text('Amount')),
+              DataColumn(label: Text('Category'))
             ],
             rows: buildRows(_rows),
             showCheckboxColumn: false,
@@ -70,9 +70,9 @@ List<DataRow> buildRows(_rows) {
             print('selected');
           },
           cells: [
-            DataCell(Text(value.id.toString())),
             DataCell(Text(value.date)),
             DataCell(Text(value.amount.toString())),
+            DataCell(Text(value.category))
           ],
         ))
       });

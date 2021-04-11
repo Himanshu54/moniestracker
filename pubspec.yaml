@@ -26,6 +26,8 @@ dependencies:
   sqflite: any
   path: any
   path_provider: any
+  intl: any
+  date_field: ^2.0.1
 
 
 
