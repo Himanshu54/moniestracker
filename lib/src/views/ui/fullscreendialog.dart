@@ -14,17 +14,17 @@ class TutorialOverlay extends ModalRoute<void> {
   Color get barrierColor => Colors.black.withOpacity(1);
 
   @override
-  String? get barrierLabel => null;
+  String get barrierLabel => null;
 
   @override
   bool get maintainState => true;
 
   @override
   Widget buildPage(
-      BuildContext context,
-      Animation<double> animation,
-      Animation<double> secondaryAnimation,
-      ) {
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
     // This makes sure that text and other content follows the material style
     return Material(
       type: MaterialType.transparency,
@@ -54,8 +54,8 @@ class TutorialOverlay extends ModalRoute<void> {
   }
 
   @override
-  Widget buildTransitions(
-      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
     // You can add your own animations for the overlay content
     return FadeTransition(
       opacity: animation,
@@ -74,12 +74,11 @@ class TestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    Scaffold(
+    return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Center(
-          child: RaisedButton(
+          child: ElevatedButton(
             onPressed: () => _showOverlay(context),
             child: Text('Show Overlay'),
           ),

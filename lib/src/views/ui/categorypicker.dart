@@ -46,11 +46,11 @@ class _CategoryPickerState extends State<CategoryPicker> {
 }
 
 class SimpleDialogItem extends StatelessWidget {
-  const SimpleDialogItem({Key? key, this.text: '', this.onPressed})
+  const SimpleDialogItem({Key key, this.text: '', this.onPressed})
       : super(key: key);
 
   final String text;
-  final VoidCallback? onPressed;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {

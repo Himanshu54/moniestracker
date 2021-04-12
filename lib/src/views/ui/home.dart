@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moniestracker/expense.dart';
-import 'package:moniestracker/src/views/ui/fullscreendialog.dart';
+import 'package:moniestracker/src/views/ui/addcategory.dart';
+import 'package:moniestracker/src/views/ui/expense.dart';
 import 'package:moniestracker/src/views/ui/inputexpensecanvas.dart';
 
 class HomeApp extends StatelessWidget {
@@ -12,7 +12,7 @@ class HomeApp extends StatelessWidget {
         body: TabBarView(
           children: [
             Center(child: ExpenseCanvas()),
-            Center(child: TestPage()),
+            Center(child: AddCategoryForm()),
             Center(child: InputExpenseCanvas()),
           ],
         ),

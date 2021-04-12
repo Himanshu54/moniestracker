@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:moniestracker/database.dart';
+import 'package:moniestracker/src/data/database.dart';
+import 'package:moniestracker/src/data/models.dart';
 
 class ExpenseCanvas extends StatefulWidget {
-  const ExpenseCanvas({Key? key}) : super(key: key);
+  const ExpenseCanvas({Key key}) : super(key: key);
   @override
   _ExpenseCanvasState createState() => _ExpenseCanvasState();
 }
@@ -18,7 +19,7 @@ class _ExpenseCanvasState extends State<ExpenseCanvas> {
   }
 
   void _loadData() async {
-    List<Expense> _tempRows = await expense();
+    List<Expense> _tempRows = await  expense();
     setState(() {
       _rows = _tempRows;
     });
