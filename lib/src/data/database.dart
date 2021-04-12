@@ -1,7 +1,7 @@
 import 'dart:async';
-// import 'dart:io';
+import 'dart:io';
 import 'package:moniestracker/src/data/models.dart';
-// import 'package:path/path.dart';
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 Future<Database> _database;
@@ -12,17 +12,16 @@ Future<Database> get database async {
 }
 
 initDB() async {
-  // var databasesPath = await getDatabasesPath();
-  // var path = join(databasesPath, dbName);
-  // 
-  var path = '/Users/hgusain/expense';
+  var databasesPath = await getDatabasesPath();
+  var path = join(databasesPath, dbName);
+
   print(path);
 // /Users/hgusain/Library/Developer/CoreSimulator/Devices/5BB719A3-527A-4DDF-BEBB-27D826DD3427/data/Containers/Data/Application/7A562483-E020-4B97-9BEE-C6D935E67E22/Documents/expense
-  // await deleteDatabase(path);
+  await deleteDatabase(path);
 // Make sure the directory exists
-  // try {
-  //   await Directory(databasesPath).create(recursive: true);
-  // } catch (_) {}
+  try {
+    await Directory(databasesPath).create(recursive: true);
+  } catch (_) {}
   // Open the database and store the reference.
   _database = openDatabase(
     path,
@@ -49,9 +48,10 @@ CREATE TABLE MT_TRANSACTION(
    sct_subcategory  TEXT  NOT NULL,
    FOREIGN KEY (ct_id)REFERENCES MT_CATEGORY(ct_id)
  );
- """,);
+ """,
+      );
     },
-    version:  2,
+    version: 2,
   );
   return _database;
 }

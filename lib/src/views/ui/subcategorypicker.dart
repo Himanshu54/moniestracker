@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CategoryPicker extends StatefulWidget {
+class SubCategoryPicker extends StatefulWidget {
   @override
-  _CategoryPickerState createState() => _CategoryPickerState();
+  _SubCategoryPickerState createState() => _SubCategoryPickerState();
 }
 
-class _CategoryPickerState extends State<CategoryPicker> {
+class _SubCategoryPickerState extends State<SubCategoryPicker> {
   var txt = TextEditingController();
 
   void updateCategory(String text) {
@@ -26,7 +26,7 @@ class _CategoryPickerState extends State<CategoryPicker> {
                   ));
         },
         decoration: InputDecoration(
-          labelText: 'Category',
+          labelText: 'Sub-Category',
           suffixIcon: Icon(
             Icons.check_circle,
           ),
