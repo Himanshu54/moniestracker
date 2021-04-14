@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moniestracker/src/views/ui/categorypickerdialog.dart';
 
 class CategoryPicker extends StatefulWidget {
   @override
@@ -21,9 +22,7 @@ class _CategoryPickerState extends State<CategoryPicker> {
         onTap: () {
           showDialog<void>(
               context: context,
-              builder: (context) => SelectCategoryDialog(
-                    updateCategory: updateCategory,
-                  ));
+              builder: (context) => SelectCategoryDialog(updateCategory));
         },
         decoration: InputDecoration(
           labelText: 'Category',
@@ -33,36 +32,6 @@ class _CategoryPickerState extends State<CategoryPicker> {
           border: OutlineInputBorder(),
         ),
       ),
-    );
-  }
-}
-
-class SelectCategoryDialog extends SimpleDialog {
-  SelectCategoryDialog({Key key, this.updateCategory}) : super(key: key);
-
-  final void Function(String) updateCategory;
-
-  @override
-  Widget build(BuildContext context) {
-    List<String> categories = ['Transportaion', 'Food'];
-    List<SimpleDialogOption> categoriesOptions = categories
-        .map((cat) => SimpleDialogOption(
-              onPressed: () {
-                updateCategory(cat);
-                Navigator.pop(context, cat);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(cat),
-                ],
-              ),
-            ))
-        .toList();
-    return SimpleDialog(
-      contentPadding: EdgeInsets.zero,
-      children: categoriesOptions,
     );
   }
 }

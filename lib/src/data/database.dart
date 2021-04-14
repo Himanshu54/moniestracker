@@ -5,7 +5,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 Future<Database> _database;
-String dbName = 'expense';
+String dbName = 'MT_EXPENSE';
 Future<Database> get database async {
   if (_database != null) return _database;
   return await initDB();
@@ -24,26 +24,35 @@ initDB() async {
   } catch (_) {}
   // Open the database and store the reference.
   _database = openDatabase(
-    path,
+    '/Users/hgusain/repo/himanhsu54/moneymanager_analyzer/moniestracker/test/MT_EXPENSE',
     onCreate: (db, version) async {
       // Run the CREATE TABLE statement on the database.
       await db.execute(
         """
 CREATE TABLE MT_CATEGORY(
-  ct_id INTEGER  NOT NULL PRIMARY KEY,
+  ct_id INTEGER PRIMARY KEY AUTOINCREMENT,
   ct_category TEXT NOT NULL
 );
 
 CREATE TABLE MT_TRANSACTION(
-  t_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  t_id INTEGER PRIMARY KEY AUTOINCREMENT,
   ct_id INTEGER NOT NULL,
+  sct_id INTEGER NOT NULL,
   t_amount REAL  NOT NULL,
+  t_description TEXT,
+  ac_id INTEGER NOT NULL,
   t_date DATE  DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (ct_id)REFERENCES MT_CATEGORY(ct_id)
+  FOREIGN KEY (sct_id)REFERENCES MT_SUBCATEGORY(sct_id),
+  FOREIGN KEY (ct_id)REFERENCES MT_CATEGORY(ct_id),
+  FOREIGN KEY (ac_id)REFERENCES MT_ACCOUNTS(ac_id)
  );
  
+ CREATE TABLE MT_ACCOUNT(
+   ac_id INTEGER PRIMARY KEY AUTOINCREMENT,
+   ac_name TEXT NOT NULL
+ );
  CREATE TABLE MT_SUBCATEGORY(
-   sct_id INTEGER  NOT NULL PRIMARY KEY,
+   sct_id INTEGER PRIMARY KEY AUTOINCREMENT,
    ct_id INTEGER,
    sct_subcategory  TEXT  NOT NULL,
    FOREIGN KEY (ct_id)REFERENCES MT_CATEGORY(ct_id)
@@ -51,37 +60,46 @@ CREATE TABLE MT_TRANSACTION(
  """,
       );
     },
-    version: 2,
+    version: 1,
   );
   return _database;
 }
 
-// Define a function that inserts dogs into the database
 Future<void> insertExpense(Expense e) async {
-  // Get a reference to the database.
   final Database db = await database;
 
-  // Insert the Dog into the correct table. You might also specify the
-  // `conflictAlgorithm` to use in case the same dog is inserted twice.
-  //
-  // In this case, replace any previous data.
+  // Insert
   await db.insert(
-    'expense',
+    'MT_TRANSACTION',
     e.toMap(),
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
 }
 
 Future<List<Expense>> expense() async {
+  await Future.delayed(Duration(seconds: 2)); //
   // Get a reference to the database.
   final Database db = await database;
 
   // Query the table for all The Dogs.
-  final List<Map<String, dynamic>> maps = await db.query('MT_TRANSACTION');
+  final List<Map<String, dynamic>> maps = await db.rawQuery("""
+SELECT t_id as id,t_label as label, t_amount as amount, mc.ct_category as category, t_date  as date ,ms.sct_subcategory as subcategory , ma.ac_name as account FROM MT_TRANSACTION mt
+JOIN MT_CATEGORY mc ON mc.ct_id=mt.ct_id
+JOIN MT_SUBCATEGORY ms on ms.sct_id=mt.sct_id
+JOIN MT_ACCOUNT ma on ma.ac_id=mt.ac_id  
+""");
 
-  // Convert the List<Map<String, dynamic> into a List<Dog>.
   return List.generate(maps.length, (i) {
-    return Expense(maps[i]['id'], maps[i]['category'],
-        double.parse(maps[i]['amount']), maps[i]['date']);
+    return Expense.fromJson(maps[i]);
+  });
+}
+
+Future<List<Category>> category() async {
+  final Database db = await database;
+
+  final List<Map<String, dynamic>> maps = await db.query('MT_CATEGORY');
+
+  return List.generate(maps.length, (index) {
+    return Category.fromJson(maps[index]);
   });
 }

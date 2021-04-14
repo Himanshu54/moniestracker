@@ -19,50 +19,18 @@ class _SubCategoryPickerState extends State<SubCategoryPicker> {
       child: TextFormField(
         controller: txt,
         onTap: () {
-          showDialog<void>(
-              context: context,
-              builder: (context) => SelectCategoryDialog(
-                    updateCategory: updateCategory,
-                  ));
+          // showDialog<void>(
+          // context: context,
+          // builder: (context) => SelectCategoryDialog(updateCategory));
         },
         decoration: InputDecoration(
-          labelText: 'Sub-Category',
+          labelText: 'Category',
           suffixIcon: Icon(
             Icons.check_circle,
           ),
           border: OutlineInputBorder(),
         ),
       ),
-    );
-  }
-}
-
-class SelectCategoryDialog extends SimpleDialog {
-  SelectCategoryDialog({Key key, this.updateCategory}) : super(key: key);
-
-  final void Function(String) updateCategory;
-
-  @override
-  Widget build(BuildContext context) {
-    List<String> categories = ['Transportaion', 'Food'];
-    List<SimpleDialogOption> categoriesOptions = categories
-        .map((cat) => SimpleDialogOption(
-              onPressed: () {
-                updateCategory(cat);
-                Navigator.pop(context, cat);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(cat),
-                ],
-              ),
-            ))
-        .toList();
-    return SimpleDialog(
-      contentPadding: EdgeInsets.zero,
-      children: categoriesOptions,
     );
   }
 }
