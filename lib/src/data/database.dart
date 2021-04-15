@@ -83,7 +83,7 @@ Future<List<Expense>> expense() async {
 
   // Query the table for all The Dogs.
   final List<Map<String, dynamic>> maps = await db.rawQuery("""
-SELECT t_id as id,t_label as label, t_amount as amount, mc.ct_category as category, t_date  as date ,ms.sct_subcategory as subcategory , ma.ac_name as account FROM MT_TRANSACTION mt
+SELECT t_id as id,t_label as label, t_amount as amount, mc.ct_category as category, mt.ct_id as ct_id, t_date  as date ,ms.sct_subcategory as subcategory,ms.sct_id as sct_id , ma.ac_name as account FROM MT_TRANSACTION mt
 JOIN MT_CATEGORY mc ON mc.ct_id=mt.ct_id
 JOIN MT_SUBCATEGORY ms on ms.sct_id=mt.sct_id
 JOIN MT_ACCOUNT ma on ma.ac_id=mt.ac_id  
@@ -94,7 +94,7 @@ JOIN MT_ACCOUNT ma on ma.ac_id=mt.ac_id
   });
 }
 
-Future<List<Category>> category() async {
+Future<List<Category>> getAllCategory() async {
   final Database db = await database;
 
   final List<Map<String, dynamic>> maps = await db.query('MT_CATEGORY');
@@ -104,11 +104,40 @@ Future<List<Category>> category() async {
   });
 }
 
-Future<List<SubCategory>> subcategory(int categoryId) async {
+Future<Category> getCategory(String id) async {
+  final Database db = await database;
+
+  final List<Map<String, dynamic>> maps = await db
+      .rawQuery('select * from MT_CATEGORY where ct_id=? Limit 1;', [id]);
+
+  return Category.fromJson(maps[0]);
+}
+
+Future<SubCategory> getSubategory(String id) async {
+  final Database db = await database;
+
+  final List<Map<String, dynamic>> maps = await db
+      .rawQuery('select * from MT_SUBCATEGORY where sct_id=? Limit 1;', [id]);
+
+  return SubCategory.fromJson(maps[0]);
+}
+
+Future<List<SubCategory>> getSubcategories(String categoryId) async {
   final Database db = await database;
 
   final List<Map<String, dynamic>> maps = await db
       .rawQuery('select * from MT_SUBCATEGORY where ct_id=?;', [categoryId]);
+
+  return List.generate(maps.length, (index) {
+    return SubCategory.fromJson(maps[index]);
+  });
+}
+
+Future<List<SubCategory>> getAllSubcategories() async {
+  final Database db = await database;
+
+  final List<Map<String, dynamic>> maps =
+      await db.rawQuery('select * from MT_SUBCATEGORY;');
 
   return List.generate(maps.length, (index) {
     return SubCategory.fromJson(maps[index]);

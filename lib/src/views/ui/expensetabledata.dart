@@ -56,8 +56,8 @@ class _ExpenseTableDataRowsState extends State<ExpenseTableDataRows> {
                     ),
                     DataCell(
                       CategoryCell(
-                          category: value.category,
-                          subcategory: value.subcategory),
+                          category: value.category.category,
+                          subcategory: value.subcategory.subcategory),
                       placeholder: true,
                     ),
                     DataCell(

@@ -36,7 +36,7 @@ class CategoryBar extends StatefulWidget {
 }
 
 class _CategoryBarState extends State<CategoryBar> {
-  Future<List<Category>> categories = category();
+  Future<List<Category>> categories = getAllCategory();
 
   @override
   Widget build(BuildContext context) {
