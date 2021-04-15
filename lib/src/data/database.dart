@@ -103,3 +103,14 @@ Future<List<Category>> category() async {
     return Category.fromJson(maps[index]);
   });
 }
+
+Future<List<SubCategory>> subcategory(int categoryId) async {
+  final Database db = await database;
+
+  final List<Map<String, dynamic>> maps = await db
+      .rawQuery('select * from MT_SUBCATEGORY where ct_id=?;', [categoryId]);
+
+  return List.generate(maps.length, (index) {
+    return SubCategory.fromJson(maps[index]);
+  });
+}

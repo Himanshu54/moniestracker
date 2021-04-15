@@ -45,3 +45,15 @@ class Category {
     return Category(json['ct_id'] as int, json['ct_category'] as String);
   }
 }
+
+class SubCategory {
+  final int id;
+  String subcategory;
+
+  SubCategory(this.id, this.subcategory);
+
+  factory SubCategory.fromJson(Map<String, dynamic> json) {
+    return SubCategory(
+        json['sct_id'] as int, json['sct_subcategory'] as String);
+  }
+}
