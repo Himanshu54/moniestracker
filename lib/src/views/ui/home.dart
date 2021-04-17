@@ -3,6 +3,7 @@ import 'package:moniestracker/src/views/ui/expense.dart';
 import 'package:moniestracker/src/views/ui/inputexpensecanvas.dart';
 
 class HomeApp extends StatelessWidget {
+  static const routeName = '/home';
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -11,7 +12,7 @@ class HomeApp extends StatelessWidget {
         body: TabBarView(
           children: [
             Center(child: ExpenseCanvas()),
-            Center(child: InputExpenseCanvas())
+            Center(child: ExpenseCanvas()),
           ],
         ),
         appBar: AppBar(
@@ -24,6 +25,14 @@ class HomeApp extends StatelessWidget {
               Tab(text: 'Add Expense', icon: Icon(Icons.calendar_view_day)),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => InputExpenseCanvas()));
+          },
         ),
       ),
     );

@@ -5,6 +5,8 @@ import 'package:moniestracker/src/data/models.dart';
 
 class ExpenseInputForm extends StatefulWidget {
   @override
+  ExpenseInputForm(this.expense);
+  final Expense expense;
   _ExpenseInputFormState createState() {
     return _ExpenseInputFormState();
   }
@@ -12,13 +14,14 @@ class ExpenseInputForm extends StatefulWidget {
 
 class _ExpenseInputFormState extends State<ExpenseInputForm> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  final Expense e = Expense(null, null, null, DateTime.now(), null, null, null);
+  Expense e = Expense(null, null, null, DateTime.now(), null, null, null);
   String categoryDropdownValue = '1';
   String subCategoryDropdownValue;
   String accountDropdownValue = '1';
 
   @override
   Widget build(BuildContext context) {
+    e = widget.expense == null ? e : widget.expense;
     return Form(
       key: this._formKey,
       child: Container(
@@ -36,6 +39,7 @@ class _ExpenseInputFormState extends State<ExpenseInputForm> {
                   Expanded(
                     flex: 7,
                     child: TextFormField(
+                      initialValue: e.label,
                       onSaved: (String s) {
                         this.e.label = s;
                       },
@@ -58,6 +62,7 @@ class _ExpenseInputFormState extends State<ExpenseInputForm> {
                   Expanded(
                     flex: 7,
                     child: TextFormField(
+                      initialValue: e.amount.toString(),
                       keyboardType: TextInputType.numberWithOptions(
                           decimal: true, signed: false),
                       onSaved: (String s) {
@@ -85,7 +90,7 @@ class _ExpenseInputFormState extends State<ExpenseInputForm> {
                       onDateSelected: (DateTime d) {
                         this.e.date = d;
                       },
-                      initialValue: e.date,
+                      initialValue: this.e.date,
                       mode: DateTimeFieldPickerMode.date,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
@@ -254,16 +259,48 @@ class _ExpenseInputFormState extends State<ExpenseInputForm> {
                 ],
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                if (this._formKey.currentState.validate()) {
-                  _formKey.currentState.save();
-                }
-                insertExpense(e);
-                Navigator.pushNamed(context, '/');
-              },
-              child: Text('Submit'),
-            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (this._formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                        }
+                        insertExpense(e);
+                        Navigator.pushNamed(
+                          context,
+                          '/home',
+                          arguments: null,
+                        );
+                      },
+                      child: Text('Add'),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(),
+                    flex: 1,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        deleteExpense(e);
+                        Navigator.pushNamed(
+                          context,
+                          '/home',
+                          arguments: null,
+                        );
+                      },
+                      child: Text('Delete'),
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

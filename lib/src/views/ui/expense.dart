@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moniestracker/src/data/database.dart';
+import 'package:moniestracker/src/views/ui/inputexpensecanvas.dart';
 
 class ExpenseCanvas extends StatefulWidget {
   const ExpenseCanvas({Key key}) : super(key: key);
@@ -50,7 +51,11 @@ class _ExpenseCanvasState extends State<ExpenseCanvas> {
                     index: value.id,
                     selected: false,
                     onSelectChanged: (bool selected) {
-                      print(value.id);
+                      Navigator.pushNamed(
+                        context,
+                        InputExpenseCanvas.routeName,
+                        arguments: value,
+                      );
                     },
                     cells: [
                       // DataCell(TableText(DateFormat.yMMMd().format(value.date))),
