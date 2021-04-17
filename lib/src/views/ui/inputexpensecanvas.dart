@@ -7,24 +7,6 @@ class InputExpenseCanvas extends StatefulWidget {
 }
 
 class _InputExpenseCanvasState extends State<InputExpenseCanvas> {
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: Padding(
-  //       padding: EdgeInsets.only(top: 20.0),
-  //       child: SingleChildScrollView(
-  //         child: Column(
-  //           children: [
-  //             DateAndTimePicker(),
-  //             CategoryPicker(),
-  //             AmountInput(),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

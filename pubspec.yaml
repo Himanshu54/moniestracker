@@ -28,6 +28,7 @@ dependencies:
   path_provider: any
   intl: any
   date_field: ^2.0.1
+  flutter_masked_text: ^0.7.0
 
 
 

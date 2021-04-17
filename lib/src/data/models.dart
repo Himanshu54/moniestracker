@@ -6,7 +6,7 @@ class Expense {
   double amount;
   DateTime date;
   SubCategory subcategory;
-  String account;
+  Account account;
   String label;
 
   factory Expense.fromObject(Expense e) {
@@ -22,9 +22,9 @@ class Expense {
       't_id': id,
       'ct_id': category.id,
       't_amount': amount,
-      't_date': date,
+      't_date': date.toString(),
       'sct_id': subcategory.id,
-      'ac_id': 1,
+      'ac_id': account.id,
       't_label': label
     };
   }
@@ -43,7 +43,7 @@ class Expense {
           json['subcategory'],
           json['ct_id'],
         ),
-        '1',
+        Account(json['ac_id'], json['ac_name']),
         json['label'] as String);
   }
 }
@@ -87,5 +87,22 @@ class SubCategory {
       json['sct_subcategory'] as String,
       json['ct_id'] as int,
     );
+  }
+}
+
+class Account {
+  final int id;
+  final String name;
+
+  Account(this.id, this.name);
+
+  balance(String id) {}
+
+  factory Account.fromObj(Account ac) {
+    return Account(ac.id, ac.name);
+  }
+
+  factory Account.fromJson(Map<String, dynamic> json) {
+    return Account(json['ac_id'], json['ac_name']);
   }
 }

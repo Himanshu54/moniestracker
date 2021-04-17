@@ -77,13 +77,12 @@ Future<void> insertExpense(Expense e) async {
 }
 
 Future<List<Expense>> expense() async {
-  await Future.delayed(Duration(seconds: 2)); //
   // Get a reference to the database.
   final Database db = await database;
 
   // Query the table for all The Dogs.
   final List<Map<String, dynamic>> maps = await db.rawQuery("""
-SELECT t_id as id,t_label as label, t_amount as amount, mc.ct_category as category, mt.ct_id as ct_id, t_date  as date ,ms.sct_subcategory as subcategory,ms.sct_id as sct_id , ma.ac_name as account FROM MT_TRANSACTION mt
+SELECT t_id as id,t_label as label, t_amount as amount, mc.ct_category as category, mt.ct_id as ct_id, t_date  as date ,ms.sct_subcategory as subcategory,ms.sct_id as sct_id , ma.ac_id as ac_id, ma.ac_name as account FROM MT_TRANSACTION mt
 JOIN MT_CATEGORY mc ON mc.ct_id=mt.ct_id
 JOIN MT_SUBCATEGORY ms on ms.sct_id=mt.sct_id
 JOIN MT_ACCOUNT ma on ma.ac_id=mt.ac_id  
@@ -136,10 +135,19 @@ Future<List<SubCategory>> getSubcategories(String categoryId) async {
 Future<List<SubCategory>> getAllSubcategories() async {
   final Database db = await database;
 
-  final List<Map<String, dynamic>> maps =
-      await db.rawQuery('select * from MT_SUBCATEGORY;');
+  final List<Map<String, dynamic>> maps = await db.query('MT_SUBCATEGORY');
 
   return List.generate(maps.length, (index) {
     return SubCategory.fromJson(maps[index]);
+  });
+}
+
+Future<List<Account>> getAllAccounts() async {
+  final Database db = await database;
+
+  final List<Map<String, dynamic>> maps = await db.query('MT_ACCOUNT');
+
+  return List.generate(maps.length, (index) {
+    return Account.fromJson(maps[index]);
   });
 }
