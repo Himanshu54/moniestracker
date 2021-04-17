@@ -76,6 +76,14 @@ Future<void> insertExpense(Expense e) async {
   );
 }
 
+Future<void> deleteExpense(Expense e) async {
+  final Database db = await database;
+
+  // Insert
+  return await db
+      .delete('MT_TRANSACTION', where: 't_id = ?', whereArgs: [e.id]);
+}
+
 Future<List<Expense>> expense() async {
   // Get a reference to the database.
   final Database db = await database;
