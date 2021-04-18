@@ -14,7 +14,7 @@ class ExpenseInputForm extends StatefulWidget {
 
 class _ExpenseInputFormState extends State<ExpenseInputForm> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  Expense e = Expense(null, null, null, DateTime.now(), null, null, null);
+  Expense e = Expense(null, null, 0.00, DateTime.now(), null, null, null);
   String categoryDropdownValue = '1';
   String subCategoryDropdownValue;
   String accountDropdownValue = '1';

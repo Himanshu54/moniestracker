@@ -59,18 +59,19 @@ class _ExpenseCanvasState extends State<ExpenseCanvas> {
                     },
                     cells: [
                       // DataCell(TableText(DateFormat.yMMMd().format(value.date))),
+
+                      DataCell(
+                        CategoryCell(
+                            category: value.category.category,
+                            subcategory: value.subcategory.subcategory),
+                        placeholder: true,
+                      ),
                       DataCell(
                         Container(
                           width: 70,
                           alignment: Alignment.centerLeft,
                           child: Text(value.label),
                         ),
-                        placeholder: true,
-                      ),
-                      DataCell(
-                        CategoryCell(
-                            category: value.category.category,
-                            subcategory: value.subcategory.subcategory),
                         placeholder: true,
                       ),
                       DataCell(
@@ -87,8 +88,8 @@ class _ExpenseCanvasState extends State<ExpenseCanvas> {
               children: [
                 DataTable(
                   columns: [
-                    DataColumn(label: Text('Label')),
                     DataColumn(label: Text('Category')),
+                    DataColumn(label: Text('Label')),
                     DataColumn(label: Text('Amount'), numeric: true),
                   ],
                   rows: _tempRow,
@@ -116,15 +117,9 @@ class CategoryCell extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 100,
-          padding: EdgeInsets.all(2),
-          color: Colors.black26,
           child: Text(category),
         ),
         Container(
-          width: 100,
-          padding: EdgeInsets.all(2),
-          color: Colors.black12,
           child: Text(subcategory),
         ),
       ],

@@ -25,6 +25,7 @@ initDB() async {
   // Open the database and store the reference.
   _database = openDatabase(
     '/Users/hgusain/repo/himanhsu54/moneymanager_analyzer/moniestracker/test/MT_EXPENSE',
+    // path,
     onCreate: (db, version) async {
       // Run the CREATE TABLE statement on the database.
       await db.execute(
@@ -39,9 +40,9 @@ CREATE TABLE MT_TRANSACTION(
   ct_id INTEGER NOT NULL,
   sct_id INTEGER NOT NULL,
   t_amount REAL  NOT NULL,
-  t_description TEXT,
+  t_label TEXT,
   ac_id INTEGER NOT NULL,
-  t_date DATE  DEFAULT CURRENT_TIMESTAMP,
+  t_date DATE  DEFAULT CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (sct_id)REFERENCES MT_SUBCATEGORY(sct_id),
   FOREIGN KEY (ct_id)REFERENCES MT_CATEGORY(ct_id),
   FOREIGN KEY (ac_id)REFERENCES MT_ACCOUNTS(ac_id)
@@ -88,9 +89,8 @@ Future<List<Expense>> expense() async {
   // Get a reference to the database.
   final Database db = await database;
 
-  // Query the table for all The Dogs.
   final List<Map<String, dynamic>> maps = await db.rawQuery("""
-SELECT t_id as id,t_label as label, t_amount as amount, mc.ct_category as category, mt.ct_id as ct_id, t_date  as date ,ms.sct_subcategory as subcategory,ms.sct_id as sct_id , ma.ac_id as ac_id, ma.ac_name as account FROM MT_TRANSACTION mt
+SELECT t_id,t_label,t_amount, mc.ct_category, mt.ct_id, t_date, ms.sct_subcategory, ms.sct_id, ma.ac_id, ma.ac_name FROM MT_TRANSACTION mt
 JOIN MT_CATEGORY mc ON mc.ct_id=mt.ct_id
 JOIN MT_SUBCATEGORY ms on ms.sct_id=mt.sct_id
 JOIN MT_ACCOUNT ma on ma.ac_id=mt.ac_id  
@@ -157,5 +157,22 @@ Future<List<Account>> getAllAccounts() async {
 
   return List.generate(maps.length, (index) {
     return Account.fromJson(maps[index]);
+  });
+}
+
+Future<List<Expense>> getExpenseByMonth(DateTime d) async {
+  final Database db = await database;
+  String date = d.toIso8601String().substring(0, 10);
+
+  final List<Map<String, dynamic>> maps = await db.rawQuery("""
+SELECT t_id, t_label, t_amount, mc.ct_category, mt.ct_id, t_date, ms.sct_subcategory, ms.sct_id, ma.ac_id, ma.ac_name FROM MT_TRANSACTION mt
+JOIN MT_CATEGORY mc ON mc.ct_id=mt.ct_id
+JOIN MT_SUBCATEGORY ms on ms.sct_id=mt.sct_id
+JOIN MT_ACCOUNT ma on ma.ac_id=mt.ac_id
+WHERE STRFTIME('%m',t_date) = STRFTIME('%m',?)
+""", [date]);
+
+  return List.generate(maps.length, (index) {
+    return Expense.fromJson(maps[index]);
   });
 }

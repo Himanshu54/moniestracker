@@ -31,20 +31,20 @@ class Expense {
 
   factory Expense.fromJson(Map<String, dynamic> json) {
     return Expense(
-        json['id'] as int,
+        json['t_id'] as int,
         Category(
           json['ct_id'],
-          json['category'],
+          json['ct_category'],
         ),
-        json['amount'] as double,
-        DateTime.parse(json['date']),
+        json['t_amount'] as double,
+        DateTime.parse(json['t_date']),
         SubCategory(
           json['sct_id'],
-          json['subcategory'],
+          json['sct_subcategory'],
           json['ct_id'],
         ),
         Account(json['ac_id'], json['ac_name']),
-        json['label'] as String);
+        json['t_label'] as String);
   }
 }
 

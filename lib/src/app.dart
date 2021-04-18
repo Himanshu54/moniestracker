@@ -6,15 +6,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: HomeApp.routeName,
-      routes: {
-        HomeApp.routeName: (BuildContext context) => HomeApp(),
-        InputExpenseCanvas.routeName: (BuildContext context) =>
-            InputExpenseCanvas(),
-      },
-      theme: ThemeData(
-        colorScheme: ColorScheme.dark(),
-      ),
-    );
+        initialRoute: HomeApp.routeName,
+        routes: {
+          HomeApp.routeName: (BuildContext context) => HomeApp(),
+          InputExpenseCanvas.routeName: (BuildContext context) =>
+              InputExpenseCanvas(),
+        },
+        theme: ThemeData.dark());
   }
 }

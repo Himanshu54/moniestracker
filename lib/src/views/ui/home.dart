@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:moniestracker/src/views/ui/dailyexpense.dart';
 import 'package:moniestracker/src/views/ui/expense.dart';
 import 'package:moniestracker/src/views/ui/inputexpensecanvas.dart';
+import 'package:moniestracker/src/views/utils/constants.dart';
 
 class HomeApp extends StatelessWidget {
   static const routeName = '/home';
@@ -12,7 +14,7 @@ class HomeApp extends StatelessWidget {
         body: TabBarView(
           children: [
             Center(child: ExpenseCanvas()),
-            Center(child: ExpenseCanvas()),
+            Center(child: DailyExpenseCard()),
           ],
         ),
         appBar: AppBar(
@@ -22,16 +24,17 @@ class HomeApp extends StatelessWidget {
             indicatorColor: Colors.white,
             tabs: [
               Tab(text: 'Today', icon: Icon(Icons.calendar_today)),
-              Tab(text: 'Add Expense', icon: Icon(Icons.calendar_view_day)),
+              Tab(
+                  text: CalenderHelper().getMonthAndYear(DateTime.now()),
+                  icon: Icon(Icons.table_chart_outlined)),
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          backgroundColor: Colors.white70,
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => InputExpenseCanvas()));
+            Navigator.pushNamed(context, InputExpenseCanvas.routeName);
           },
         ),
       ),
