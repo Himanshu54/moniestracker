@@ -176,3 +176,13 @@ WHERE STRFTIME('%m',t_date) = STRFTIME('%m',?)
     return Expense.fromJson(maps[index]);
   });
 }
+
+
+Future<List<Entries>> getAllTransactions() async{
+  final Database  db = await database;
+  
+    final List<Map<String, dynamic>> maps = await db.query('MT_TRANSACTION');
+
+  return List.generate(maps.length, (index) {
+    return Entries.fromJson(maps[index]);
+}
