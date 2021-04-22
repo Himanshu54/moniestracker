@@ -1,4 +1,5 @@
 import 'package:moniestracker/src/data/database.dart';
+import 'package:moniestracker/src/views/utils/constants.dart';
 
 class Expense {
   final int id;
@@ -107,25 +108,25 @@ class Account {
   }
 }
 
-class Entries {
+class Entry {
   final int tId;
   final int ctId;
   final int sctId;
   final int acId;
-  final DateTime tDate;
+  final MyDateTime tDate;
   final double tAmount;
   final String tLabel;
 
-  Entries(this.tId, this.ctId, this.sctId, this.acId, this.tDate, this.tAmount,
+  Entry(this.tId, this.ctId, this.sctId, this.acId, this.tDate, this.tAmount,
       this.tLabel);
 
-  factory Entries.fromJson(Map<String, dynamic> json) {
-    return Entries(
+  factory Entry.fromJson(Map<String, dynamic> json) {
+    return Entry(
         json['t_id'] as int,
         json['ct_id'] as int,
         json['sct_id'] as int,
         json['ac_id'] as int,
-        DateTime.parse(json['t_date']),
+        MyDateTime(DateTime.parse(json['t_date'])),
         json['t_amount'] as double,
         json['t_label'] as String);
   }

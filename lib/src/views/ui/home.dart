@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moniestracker/src/views/ui/dailyexpense.dart';
-import 'package:moniestracker/src/views/ui/expense.dart';
 import 'package:moniestracker/src/views/ui/inputexpensecanvas.dart';
 import 'package:moniestracker/src/views/utils/constants.dart';
 
@@ -9,11 +8,10 @@ class HomeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 1,
       child: Scaffold(
         body: TabBarView(
           children: [
-            Center(child: ExpenseCanvas()),
             Center(child: DailyExpenseCard()),
           ],
         ),
@@ -23,7 +21,6 @@ class HomeApp extends StatelessWidget {
           bottom: TabBar(
             indicatorColor: Colors.white,
             tabs: [
-              Tab(text: 'Today', icon: Icon(Icons.calendar_today)),
               Tab(
                   text: CalenderHelper().getMonthAndYear(DateTime.now()),
                   icon: Icon(Icons.table_chart_outlined)),

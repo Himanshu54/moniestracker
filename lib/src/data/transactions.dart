@@ -1,16 +1,37 @@
 import 'package:moniestracker/src/data/database.dart';
 import 'package:moniestracker/src/data/models.dart';
 
-Transactions _transactions = Transactions();
 class Transactions {
   Map<int, Category> categoryMap;
   Map<int, SubCategory> subCategoryMap;
   Map<int, Account> accountMap;
-  Map<int, Entries> allEntries;
+  Map<int, Entry> allEntries;
 
-  buildCategoryMap() {
-    Future<List<Category>> allCategories = getAllCategory();
-    allCategories.then((value) {
+  Future<List<Category>> allCategories;
+  Future<List<Entry>> entries;
+  Future<List<Account>> allAccounts;
+  Future<List<SubCategory>> allSubcategories;
+
+  static final Transactions _transactions = Transactions._internal();
+
+  factory Transactions() {
+    return _transactions;
+  }
+
+  Transactions._internal();
+
+  initTransaction() async {
+    // await Future.delayed(Duration(seconds: 5));
+    await buildAccountMap();
+    await buildCategoryMap();
+    await buildSubCategoryMap();
+    await getAllEntries();
+    return;
+  }
+
+  buildCategoryMap() async {
+    allCategories = getAllCategory();
+    await allCategories.then((value) {
       categoryMap = Map<int, Category>.fromIterable(
         value,
         key: (item) => item.id,
@@ -21,9 +42,9 @@ class Transactions {
     });
   }
 
-  buildSubCategoryMap() {
-    Future<List<SubCategory>> allSubcategories = getAllSubcategories();
-    allSubcategories.then((value) {
+  buildSubCategoryMap() async {
+    allSubcategories = getAllSubcategories();
+    await allSubcategories.then((value) {
       subCategoryMap = Map<int, SubCategory>.fromIterable(
         value,
         key: (item) => item.id,
@@ -34,9 +55,9 @@ class Transactions {
     });
   }
 
-  buildAccountMap() {
-    Future<List<Account>> allAccounts = getAllAccounts();
-    allAccounts.then((value) {
+  buildAccountMap() async {
+    allAccounts = getAllAccounts();
+    await allAccounts.then((value) {
       accountMap = Map<int, Account>.fromIterable(
         value,
         key: (item) => item.id,
@@ -47,21 +68,16 @@ class Transactions {
     });
   }
 
-  getAllEntries() {
-    Future<List<Entries>> entries = getAllEntries();
-    entries.then((value) {
-      allEntries = Map<int, Entries>.fromIterable(
+  getAllEntries() async {
+    entries = getAllTransactions();
+    await entries.then((value) {
+      allEntries = Map<int, Entry>.fromIterable(
         value,
-        key: (item) => item.id,
+        key: (item) => item.tId,
         value: (item) => item,
       );
     }).onError((error, stackTrace) {
       print('Unable to get entries');
     });
-  }
-
-  Transactions() {
-    getAllEntries();
-    buildCategoryMap();
   }
 }
